@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Maven test
-        uses: mvn test
+        run: mvn test
 
       - name: Checkstyle
         run: mvn checkstyle:checkstyle
@@ -24,9 +24,13 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-
+      
       # setup Sonar Scanner
-      - name: Setup Sonar-Qube Scanner
+      - name: Setup SonarQube Scanner
+        uses: warchant/setup-sonar-scanner@v7
+        
+      # run Sonar Scanner
+      - name: SonarQube Scan
         run: sonar-scanner
           -Dsonar.host.url=${{ secrets.SONAR_URL }}
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
